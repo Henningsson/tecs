@@ -18,14 +18,6 @@ World::~World()
     delete *it;
 }
 
-Entity* World::create_entity()
-{
-  auto entity = new Entity();
-  m_entities.push_back(entity);
-  
-  return entity;
-}
-
 void World::remove_entity(Entity *entity)
 {
   auto it = find(m_entities.begin(), m_entities.end(), entity);
@@ -35,15 +27,6 @@ void World::remove_entity(Entity *entity)
       m_entities.erase(it);
       delete entity;
     }    
-}
-
-
-ComponentSystem* World::create_system()
-{
-  auto system = new ComponentSystem();
-  m_systems.push_back(system);
-
-  return system;
 }
 
 void World::remove_system(ComponentSystem *system)

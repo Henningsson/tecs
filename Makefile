@@ -4,9 +4,8 @@ IDIR     = ./include
 SDIR     = ./src
 OBJDIR   = ./obj
 CPPFLAGS = -std=c++0x -I$(IDIR)
-LDFLAGS  = -lsfml-graphics -lsfml-window -lsfml-system
 
-TARGET  = engine_demo
+TARGET  = tecs_demo
 SOURCES = $(shell echo src/*.cpp)
 HEADERS = $(shell echo include/*.h)
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -15,7 +14,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS)
+	$(CXX) -o $(TARGET) $(OBJECTS)
 
 clean:
 	-rm $(OBJECTS) $(TARGET)
