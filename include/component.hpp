@@ -18,6 +18,7 @@ namespace tecs
   {
   public:
     
+    using value_type  = T;
     using ComponentId = TypeId<ComponentBase>;
 
     Component()          = default;

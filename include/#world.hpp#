@@ -49,7 +49,7 @@ namespace tecs
   T* World::create_entity()
   {
     static_assert(std::is_base_of<Entity, T>::value,
-		  "Template parameter is not a base of Entity");
+		  "Template parameter is not a base of tecs::Entity");
 
     auto e = new T();
     m_entities.push_back(e);
@@ -61,7 +61,7 @@ namespace tecs
   T* World::create_system()
   {
     static_assert(std::is_base_of<ComponentSystem, T>::value,
-		  "Template parameter is not a base of ComponentSystem");
+		  "Template parameter is not a base of tecs::ComponentSystem");
 
     //ADD(Timmy): Only one instance of each system type allowed
 

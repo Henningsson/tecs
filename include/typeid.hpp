@@ -9,7 +9,7 @@ namespace tecs
 {
   using Id = unsigned int;
 
-  template<class Base>
+  template<typename Base>
   class TypeId
   {
   public:
@@ -25,7 +25,7 @@ namespace tecs
     static Id m_nextId;
   };
 
-  template<class Base>
+  template<typename Base>
   Id TypeId<Base>::m_nextId = 0;
 }
 

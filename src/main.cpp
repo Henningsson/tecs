@@ -2,21 +2,35 @@
 
 using namespace tecs;
 
-struct DerivedEntity : Entity
+struct Character : public Entity
 {
 };
 
-struct DerivedSystem : ComponentSystem
+struct Health : public Component<Health>
 {
+  int amount;
 };
+
+struct Mana : public Component<Mana>
+{
+  int amount;
+};
+
 
 int main()
 {
-
   World world;
+
+  auto character = world.create_entity<Character>();
+
+  auto health = c->add_component<Health>();
+  health->amount = 100;
   
-  auto e = world.create_entity<DerivedEntity>();
-  auto s = world.create_system<DerivedSystem>();
+  auto mana = c->add_component<Mana>();
+  mana->amount = 100;
+
+  
+  
 
 
   return 0;
