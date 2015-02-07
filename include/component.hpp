@@ -13,13 +13,13 @@ namespace tecs
     virtual ~ComponentBase() = default;
   };
 
+  using ComponentId = TypeId<ComponentBase>;
+
   template<class T>
   class Component : public ComponentBase
   {
   public:
-    
     using value_type  = T;
-    using ComponentId = TypeId<ComponentBase>;
 
     Component()          = default;
     virtual ~Component() = default;

@@ -5,9 +5,10 @@
 #ifndef TYPEID_HPP_
 #define TYPEID_HPP_
 
+#include "id.hpp"
+
 namespace tecs
 {
-  using Id = unsigned int;
 
   template<typename Base>
   class TypeId

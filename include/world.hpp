@@ -6,12 +6,13 @@
 #ifndef WORLD_HPP_
 #define WORLD_HPP_
 
-#include <vector>
+#include <unordered_map>
 #include <type_traits>
 
 #include "entity.hpp"
 #include "component.hpp"
-#include "componentsystem.hpp"
+#include "system.hpp"
+#include "id.hpp"
 
 namespace tecs
 {
@@ -19,6 +20,9 @@ namespace tecs
   class World
   {
   public:
+
+    using EntityMap = std::unordered_map<Id, Entity*>;
+    using SystemMap = std::unordered_map<Id, System*>;
 
     World() = default;
     virtual ~World();
@@ -30,45 +34,79 @@ namespace tecs
 
     template<class T>
     T* create_entity();
-    
-    void remove_entity(Entity *entity);
 
-    template<class T>
+    template<typename T>
     T* create_system();
+
+    template<typename T>
+    bool has_system();
     
-    void remove_system(ComponentSystem *system);
+    void remove_system(System *system);
+    void remove_system(const Id& id);
+
+    void remove_entity(Entity *entity);
+    void remove_entity(const Id& id);
+
+    System* get_system(const Id& id);
+
+    Entity* get_entity(const Id& id);
+
+    void populate_systems();
 
   private:
 
-    std::vector<Entity*>          m_entities;
-    std::vector<ComponentSystem*> m_systems;
+    EntityMap m_entities;
+    SystemMap m_systems;
+
+    void populate_systems(Entity *entity);
   };
 
 
-  template<class T>
+  template<typename T>
   T* World::create_entity()
   {
     static_assert(std::is_base_of<Entity, T>::value,
 		  "Template parameter is not a base of Entity");
 
     auto e = new T();
-    m_entities.push_back(e);
+    m_entities[e->get_id()] = e;
+
+    //Add the entity to the appropiate systems
+    populate_systems(e);
 
     return e;
   }
 
-  template<class T>
+  template<typename T>
   T* World::create_system()
   {
-    static_assert(std::is_base_of<ComponentSystem, T>::value,
+    static_assert(std::is_base_of<System, T>::value,
 		  "Template parameter is not a base of ComponentSystem");
 
-    //ADD(Timmy): Only one instance of each system type allowed
+    if(!has_system<T>()) //Systems are unique and can only exist in one instance
+      {
+	auto s = new T();
+	m_systems[s->get_id()] = s;;
 
-    auto system = new T();
-    m_systems.push_back(system);
+	//Add the approipate entities to the system
+	s->populate(m_entities);
 
-    return system;
+	return s;
+      }
+
+    return nullptr;
+  }
+
+  template<typename T>
+  bool World::has_system()
+  {
+    for(auto s : m_systems)
+      {
+	if(typeid(s) == typeid(T*))
+	  return true;
+      }
+
+    return false;
   }
 
 }
