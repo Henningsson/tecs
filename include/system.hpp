@@ -3,6 +3,7 @@
 #define SYSTEM_HPP_
 
 #include <unordered_map>
+#include <vector>
 #include <string>
 
 #include "filter.hpp"
@@ -17,15 +18,16 @@ namespace tecs
   {
   public:
 
-    using EntityMap = std::unordered_map<Id, Entity*>;
+    using EntityMap    = std::unordered_map<Id, Entity*>;
+    using EntityVector = std::vector<Entity*>;
 
     System() = default;
     System(const Filter& filter);
 
     virtual ~System() = default;
 
-    EntityMap get_entities();
-    Filter    get_filter() const;
+    EntityVector get_entities();
+    Filter       get_filter() const;
 
     void set_filter(const Filter& filter);
 

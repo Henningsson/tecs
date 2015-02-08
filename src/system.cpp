@@ -14,9 +14,14 @@ System::System(const Filter& filter)
 {}
 
 
-System::EntityMap System::get_entities()
+System::EntityVector System::get_entities()
 {
-  return m_entities;
+  EntityVector v;
+
+  for(auto e : m_entities)
+    v.push_back(e.second);
+
+  return v;
 }
 
 Filter System::get_filter() const
