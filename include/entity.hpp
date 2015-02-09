@@ -22,14 +22,16 @@ namespace tecs
 
     using ComponentMap  = std::unordered_map<Id, ComponentBase*>;
 
-    Entity()  = default;
-    ~Entity() = default;
+    Entity() = default;
+    ~Entity();
 
     template<typename T>
     T* add_component();
 
     template<typename T>
     void remove_component();
+
+    void remove_all_components();
 
     template<typename T>
     T* get_component();

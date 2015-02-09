@@ -22,7 +22,7 @@ namespace tecs
   public:
 
     using EntityMap = std::unordered_map<Id, Entity*>;
-    using SystemMap = std::unordered_map<Id, System*>;
+    using SystemMap = std::unordered_map<Id, SystemBase*>;
 
     World() = default;
     virtual ~World();
@@ -41,13 +41,16 @@ namespace tecs
     template<typename T>
     bool has_system();
     
-    void remove_system(System *system);
+    template<typename T>
+    void remove_system();
     void remove_system(const Id& id);
 
     void remove_entity(Entity *entity);
     void remove_entity(const Id& id);
 
-    System* get_system(const Id& id);
+    template<typename T>
+    SystemBase* get_system();
+    SystemBase* get_system(const Id& id);
 
     Entity* get_entity(const Id& id);
 
@@ -62,6 +65,8 @@ namespace tecs
   };
 
 
+
+
   template<typename T>
   T* World::create_entity()
   {
@@ -71,7 +76,6 @@ namespace tecs
     auto e = new T();
     m_entities[e->get_id()] = e;
 
-    //Add the entity to the appropiate systems
     populate_systems(e);
 
     return e;
@@ -80,15 +84,14 @@ namespace tecs
   template<typename T>
   T* World::create_system()
   {
-    static_assert(std::is_base_of<System, T>::value,
-		  "Template parameter is not a base of ComponentSystem");
+    static_assert(std::is_base_of<SystemBase, T>::value,
+		  "Template parameter is not a base of System");
 
     if(!has_system<T>()) //Systems are unique and can only exist in one instance
       {
 	auto s = new T();
-	m_systems[s->get_id()] = s;;
+	m_systems[s->get_typeid()] = s;;
 
-	//Add the approipate entities to the system
 	s->populate(m_entities);
 
 	return s;
@@ -100,14 +103,21 @@ namespace tecs
   template<typename T>
   bool World::has_system()
   {
-    for(auto s : m_systems)
-      {
-	if(typeid(s) == typeid(T*))
-	  return true;
-      }
-
-    return false;
+    return m_systems.find(SystemId::get<T>()) != m_systems.end();
   }
+
+  template<typename T>
+  void World::remove_system()
+  {
+    remove_system(SystemId::get<T>());
+  }
+
+  template<typename T>
+  SystemBase* World::get_system()
+  {
+    return get_system(SystemId::get<T>());
+  }
+
 
 }
 

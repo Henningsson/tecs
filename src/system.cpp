@@ -9,12 +9,11 @@ using namespace tecs;
 using namespace std;
 
 
-System::System(const Filter& filter)
+SystemBase::SystemBase(const Filter& filter)
   : m_filter(filter)
 {}
 
-
-System::EntityVector System::get_entities()
+SystemBase::EntityVector SystemBase::get_entities()
 {
   EntityVector v;
 
@@ -24,17 +23,17 @@ System::EntityVector System::get_entities()
   return v;
 }
 
-Filter System::get_filter() const
+Filter SystemBase::get_filter() const
 {
   return m_filter;
 }
 
-void System::set_filter(const Filter& filter)
+void SystemBase::set_filter(const Filter& filter)
 {
   m_filter = filter;
 }
 
-void System::populate(const EntityMap& entities)
+void SystemBase::populate(const EntityMap& entities)
 {
   clear();
 
@@ -45,14 +44,14 @@ void System::populate(const EntityMap& entities)
     }
 }
 
-void System::populate(Entity *entity)
+void SystemBase::populate(Entity *entity)
 {
   if(m_filter.passes_filter(entity))
-     m_entities[entity->get_id()] = entity;
+    m_entities[entity->get_id()] = entity;
 }
 
 
-void System::clear()
+void SystemBase::clear()
 {
   m_entities.clear();
 }

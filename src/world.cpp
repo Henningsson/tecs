@@ -16,12 +16,6 @@ World::~World()
     delete it->second;
 }
 
-
-void World::remove_system(System *system)
-{
-  remove_system(system->get_id());
-}
-
 void World::remove_system(const Id& id)
 {
   auto it = m_systems.find(id);
@@ -49,7 +43,7 @@ void World::remove_entity(const Id& id)
     }
 }
 
-System* World::get_system(const Id& id)
+SystemBase* World::get_system(const Id& id)
 {
   if(m_systems.find(id) != m_systems.end())
     return m_systems[id];
