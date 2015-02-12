@@ -21,7 +21,7 @@ namespace tecs
     SystemBase() = default;
     SystemBase(const Filter& filter);
 
-    virtual ~SystemBase() = 0;
+    virtual ~SystemBase() = default;
 
     //Systems should be unique
     SystemBase(const SystemBase&)            = delete;
