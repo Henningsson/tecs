@@ -18,6 +18,11 @@ namespace tecs
   {
   public:
 
+    SystemBase() = default;
+    SystemBase(const Filter& filter);
+
+    virtual ~SystemBase() = 0;
+
     //Systems should be unique
     SystemBase(const SystemBase&)            = delete;
     SystemBase(SystemBase&&)                 = delete;
@@ -38,15 +43,9 @@ namespace tecs
     void clear();
 
   protected:
-
-    SystemBase() = default;
-    SystemBase(const Filter& filter);
-    virtual ~SystemBase() = default;
-
     Filter    m_filter;
     EntityMap m_entities;
 
-    friend class World;
   };
 
 
@@ -59,18 +58,16 @@ namespace tecs
   public:
     using value_type = T;
 
+    System() = default;
+    System(const Filter& filter) : SystemBase(filter)
+    {}
+
     virtual ~System() = default;
 
     Id get_typeid() const
     {
       return SystemId::get<T>();
     }
-
-  protected:
-
-    System() = default;
-    System(const Filter& filter) : SystemBase(filter)
-    {}
 
   };
 

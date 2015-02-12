@@ -1,7 +1,5 @@
 /* @author: Timmy Henningsson */
-
 #include "world.hpp"
-#include <algorithm>
 
 using namespace tecs;
 using namespace std;

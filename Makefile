@@ -19,7 +19,7 @@ $(TARGET): $(OBJECTS)
 
 install:
 	cp $(TARGET) /usr/local/lib
-	mkdir -f /usr/include/tecs
+	mkdir -p /usr/include/tecs
 	cp ./include/*.hpp /usr/include/tecs/
 
 clean:

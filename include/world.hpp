@@ -9,8 +9,8 @@
 #include <unordered_map>
 #include <type_traits>
 
-#include "entity.hpp"
 #include "component.hpp"
+#include "entity.hpp"
 #include "system.hpp"
 #include "id.hpp"
 
@@ -32,7 +32,7 @@ namespace tecs
     World& operator=(const World&) = delete;
     World& operator=(World&&)      = delete;
 
-    template<class T>
+    template<typename T = Entity>
     T* create_entity();
 
     template<typename T>
@@ -74,6 +74,7 @@ namespace tecs
 		  "Template parameter is not a base of Entity");
 
     auto e = new T();
+    e->set_world(this);
     m_entities[e->get_id()] = e;
 
     populate_systems(e);

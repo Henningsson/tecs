@@ -9,8 +9,6 @@
 
 namespace tecs
 {
-  //NOTE(Timmy): Ids may theoretically run out (altough there are about 4294967295 of them..
-  //             a better idea would be to assign id's from a pool or something, maybe use boost uuid
 
   template<typename T>
   class InstanceId

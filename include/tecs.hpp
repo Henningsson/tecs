@@ -8,7 +8,6 @@
 // Göra System och Entity till friend klasser till World?? och enbart tillåta
 // dom att konstrueras av World? ( sätta alla konstruktorer som private )
 
-
 #include "world.hpp"
 #include "entity.hpp"
 #include "system.hpp"
