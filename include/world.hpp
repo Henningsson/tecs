@@ -21,6 +21,7 @@ namespace tecs
   {
   public:
 
+    using EntityVector = std::vector<Entity*>;
     using EntityMap = std::unordered_map<Id, Entity*>;
     using SystemMap = std::unordered_map<Id, SystemBase*>;
 
@@ -53,6 +54,7 @@ namespace tecs
     SystemBase* get_system(const Id& id);
 
     Entity* get_entity(const Id& id);
+    EntityVector get_entities();
 
     void populate_systems();
 
@@ -91,7 +93,7 @@ namespace tecs
     if(!has_system<T>()) //Systems are unique and can only exist in one instance
       {
 	auto s = new T();
-	m_systems[s->get_typeid()] = s;;
+	m_systems[s->get_typeid()] = s;
 
 	s->populate(m_entities);
 

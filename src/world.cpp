@@ -57,6 +57,16 @@ Entity* World::get_entity(const Id& id)
   return nullptr;
 }
 
+World::EntityVector
+World::get_entities()
+{
+  EntityVector entities;
+  for(auto it = m_entities.cbegin(); it != m_entities.cend(); ++it)
+    entities.push_back(it->second);
+
+  return entities;
+}
+
 
 void World::populate_systems()
 {
